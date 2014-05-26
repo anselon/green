@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GREEN</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+<div id="pagecontainer">
+<div id="banner"> GREEN </div>
+
+
+<div id="feedback">
+
+  <div id="road">
+
+    <!--<div>
+      <img id="coal" height="100px" width="100px" src="coal.png">
+    </div>
+    <div>
+      <img id="windmill" height="200px" width="100px" src="windmill.png">
+    </div>-->
+
+    <canvas id="myCanvas" width="1200" height="400"></canvas>
+    <script>
+      window.addEventListener('load', function () {
+        var windimg = new Image,
+        ctx = document.getElementById('myCanvas').getContext('2d');
+
+        var coalimg = new Image,
+        ctx = document.getElementById('myCanvas').getContext('2d');
+
+        coalimg.src = 'coal.png';
+        windimg.src ='windmill.png';
+        function move(obj1, obj2, ctx, x1, y1, x2, y2) {
+          //var x = 0, y = 0;
+          var interval = setInterval(function() {
+
+            return function () {
+              ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+              ctx.drawImage(obj1, x1, y1);
+              ctx.drawImage(obj2, x2, y2);
+
+              x1 += 1;
+              x2 += 1;
+              if (x1 > ctx.canvas.width) {
+                x1 = 0;
+                x2 = 0;
+              }
+            };
+          }(), 1000/40);
+        }
+
+      move(coalimg,windimg,ctx,0,0, 0, 100);
+      //  body.addEventListener('load', function(){move(coalimg, ctx,0,0); move(windimg, ctx,0,100);}, false);
+       //windimg.addEventListener('load', function(){move(windimg, ctx,0,100)}, false);
+
+      }, false);
+
+
+    </script>
+
+
+
+</div><!--road-->
+
+
+
+
+</div><!--feedback-->
+
+
+</div><!--page container-->
+
+</body>
+
+
+</html>
