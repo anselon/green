@@ -1,11 +1,12 @@
 
-
+html{height:100%;}
 body{
   margin-left:50px;
   margin-right:50px;
+  height:100%;
 }
 #pagecontainer{
-  height:auto;
+height:100%;
 }
 
 #banner{
@@ -21,16 +22,22 @@ body{
 
 #feedback{
   margin-top:2%;
-  border-radius: 10px;
+  /*border-radius: 10px;
   border: 2px solid;
-  border-color: #BFB58A;
+  border-color: #BFB58A;*/
   height: auto;
+  height:80%;
+  position:relative;
 }
 
 #road{
-  margin-top:60%;
+  margin-top:15%;
   background-color:#cba87a;
   height:200px;
+  position:relative;
+  border-radius: 10px;
+  border: 2px solid;
+  border-color:#cba87a;
 }
 
 
@@ -39,7 +46,16 @@ body{
 
 }
 
+#counter{
+  /*font-family: 'Geostar', cursive;*/
+  text-align:right;
+  font-family: 'Stint Ultra Expanded', cursive;
+  font-size:200px;
+}
 
+#unit{
+  font-size:150px;
+}
 
 
 

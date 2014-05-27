@@ -3,6 +3,7 @@
 <head>
 <title>GREEN</title>
 <link rel="stylesheet" type="text/css" href="style.css">
+<link href='http://fonts.googleapis.com/css?family=Geostar|Stint+Ultra+Expanded' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -11,7 +12,7 @@
 
 
 <div id="feedback">
-
+  <div id="counter"><span id="num"> 200 </span><span id="unit">W</span></div>
   <div id="road">
 
     <!--<div>
@@ -57,12 +58,14 @@
 
       }, false);
 
+      var watts = setInterval(function(){changeWatts(200)},500);
+      function changeWatts(x){
+        var newwatts = x + (Math.floor((Math.random() * 20) + 1));
+        document.getElementById("num").innerHTML = newwatts;
+      }
 
     </script>
-
-
-
-</div><!--road-->
+  </div><!--road-->
 
 
 
