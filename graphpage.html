@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<title>GREEN</title>
+		<script src="Chart.js"></script>
+		<meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
+		<style>
+			canvas{
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link href='http://fonts.googleapis.com/css?family=Geostar|Stint+Ultra+Expanded' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div id="pagecontainer">
+		<div id="banner"> GREEN </div>
+		<canvas id="canvas" height="600" width="800"></canvas>
+
+
+	<script>
+
+		var barChartData = {
+			labels : ["Your Energy (kWh)","Class (kWh)"],
+			datasets : [
+				{
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,1)",
+					data : [212,3500]
+				}
+				
+			]
+			
+		}
+
+	var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData,{scaleOverride: true, scaleStartValue: 0, scaleStepWidth: 150, scaleSteps: 30});
+	
+	</script>
+	</div>
+	</body>
+</html>
+
