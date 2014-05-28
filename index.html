@@ -4,15 +4,28 @@
 <title>GREEN</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 <link href='http://fonts.googleapis.com/css?family=Geostar|Stint+Ultra+Expanded' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:400,600,700|Open+Sans:400,600' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-<div id="pagecontainer">
-<div id="banner"> GREEN </div>
 
+<div id="banner">
+  <span>GREEN </span>
+  <div id="sub"> generating responsible energy education now</div>
+
+
+</div>
 
 <div id="feedback">
-  <div id="counter"><span id="num"> 200 </span><span id="unit">W</span></div>
+
+    <span><button id ="start"> start</button></span>
+
+    <div id="counter"><span id="num"> 0 </span><span id="unit">W</span></div>
+
+</div><!--feedback-->
+
+
+
   <div id="road">
 
     <!--<div>
@@ -22,14 +35,35 @@
       <img id="windmill" height="200px" width="100px" src="windmill.png">
     </div>-->
 
-    <canvas id="myCanvas" width="1200" height="400"></canvas>
+    <canvas id="myCanvas" width="1310" height="400"></canvas>
     <script>
-      window.addEventListener('load', function () {
+      var start = document.getElementById('start');
+      start.addEventListener('click', function () {
+
+
         var windimg = new Image,
         ctx = document.getElementById('myCanvas').getContext('2d');
 
         var coalimg = new Image,
         ctx = document.getElementById('myCanvas').getContext('2d');
+
+        var myRectangle = {
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 200,
+        borderWidth: 5
+      };
+
+        function drawRectangle(myRectangle, context) {
+        context.beginPath();
+        context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
+        context.globalAlpha=0.5;
+        context.fillStyle = '#ffea00';
+        context.fill();
+
+        }
+
 
         coalimg.src = 'coal.png';
         windimg.src ='windmill.png';
@@ -39,30 +73,35 @@
 
             return function () {
               ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+              drawRectangle(myRectangle, ctx);
+              //ctx.globalAlpha=1;
               ctx.drawImage(obj1, x1, y1);
               ctx.drawImage(obj2, x2, y2);
 
+            //  ctx.drawImage(obj3, 0, 0);
+
               x1 += 1;
               x2 += 1;
+              myRectangle.width = myRectangle.width + 1;
               if (x1 > ctx.canvas.width) {
-                x1 = 0;
-                x2 = 0;
+                return 0;
               }
             };
-          }(), 1000/40);
+          }(), 1200/40);
+
         }
 
       move(coalimg,windimg,ctx,0,0, 0, 100);
-      //  body.addEventListener('load', function(){move(coalimg, ctx,0,0); move(windimg, ctx,0,100);}, false);
-       //windimg.addEventListener('load', function(){move(windimg, ctx,0,100)}, false);
+      var watts = setInterval(function(){changeWatts(200)},500);
+
 
       }, false);
 
-      var watts = setInterval(function(){changeWatts(200)},500);
+
       function changeWatts(x){
         var newwatts = x + (Math.floor((Math.random() * 20) + 1));
         document.getElementById("num").innerHTML = newwatts;
-      }
+        }
 
     </script>
   </div><!--road-->
@@ -70,10 +109,8 @@
 
 
 
-</div><!--feedback-->
 
 
-</div><!--page container-->
 
 </body>
 
