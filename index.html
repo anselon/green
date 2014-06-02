@@ -3,7 +3,7 @@
 <head>
 <title>GREEN</title>
 <link rel="stylesheet" type="text/css" href="style.css">
-<link href='http://fonts.googleapis.com/css?family=Geostar|Stint+Ultra+Expanded' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Geostar|Stint+Ultra+Expanded:200,400' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:400,600,700|Open+Sans:400,600' rel='stylesheet' type='text/css'>
 </head>
 
@@ -11,17 +11,17 @@
 
 <div id="banner">
   <span>GREEN </span>
-  <div id="sub"> generating responsible energy education now</div>
+  <span id="sub"> generating responsible energy education now</span>
 
 
 </div>
-
+<div id="question">Can you generate more energy than 1 pound of coal?</div>
 <div id="feedback">
 
     <span><button id ="start"> start</button></span>
+    <a href="graphpage.html"><button  id="results" style="display:none;"> view results </button></a>
 
-    <div id="counter"><span id="num"> 0 </span><span id="unit">W</span></div>
-
+    <div id="counter"><span id="num"> 0 </span><span id="unit"> watts</span></div>
 </div><!--feedback-->
 
 
@@ -35,74 +35,145 @@
       <img id="windmill" height="200px" width="100px" src="windmill.png">
     </div>-->
 
-    <canvas id="myCanvas" width="1310" height="400"></canvas>
+    <canvas id="myCanvas" width="1330" height="400"></canvas>
     <script>
-      var start = document.getElementById('start');
+
+
+
+
+      // Check for the various File API support.
+      if (window.File && window.FileReader && window.FileList && window.Blob) {
+        // Great success! All the File APIs are supported.
+      } else {
+        alert('The File APIs are not fully supported in this browser.');
+      }
+
+      //document.getElementById('num').innerText = GetALine("data.txt");
+
+        var wattsfromfile = 0;
+        var fileName = "data.txt";
+	      var txtFile;
+
+        //keep track of watts in last line of file
+
+
+        if (window.XMLHttpRequest)
+    	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+    	  txtFile = new XMLHttpRequest();
+    	  }
+    	else
+    	  {// code for IE6, IE5
+    	  txtFile = new ActiveXObject("Microsoft.XMLHTTP");
+    	  }
+	       txtFile.open("GET","data.txt",false);
+	       txtFile.send();
+	       var txtDoc=txtFile.responseText;
+	       var lines = txtDoc.split("\n");
+         //alert(lines[lines.length-2]);
+        wattsfromfile = parseInt(lines[lines.length-2]); // values in lines[0], lines[1].
+
+
+
+              var windimg = new Image,
+              ctx = document.getElementById('myCanvas').getContext('2d');
+
+              var coalimg = new Image,
+              ctx = document.getElementById('myCanvas').getContext('2d');
+
+              var rect1 = {
+              x: 0,
+              y: 0,
+              width: 100,
+              height: 100,
+              borderWidth: 5
+              };
+
+              var rect2 = {
+              x: 0,
+              y: 100,
+              width: 100,
+              height: 100,
+              borderWidth: 5
+              };
+
+              function drawRectangle(rectangle, context, color) {
+              context.beginPath();
+              context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+              context.fillStyle = color;
+              context.fill();
+
+              }
+
+
+              coalimg.src = 'coal.png';
+              windimg.src ='windmill.png';
+
+              ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+              drawRectangle(rect2, ctx, '#9a9a9a');
+              drawRectangle(rect1, ctx, '#98A729');
+              ctx.drawImage(coalimg, 0,100);
+              ctx.drawImage(windimg, 0,0);
+
+      //call move when user clicks start
       start.addEventListener('click', function () {
 
-
-        var windimg = new Image,
-        ctx = document.getElementById('myCanvas').getContext('2d');
-
-        var coalimg = new Image,
-        ctx = document.getElementById('myCanvas').getContext('2d');
-
-        var myRectangle = {
-        x: 0,
-        y: 0,
-        width: 100,
-        height: 200,
-        borderWidth: 5
-      };
-
-        function drawRectangle(myRectangle, context) {
-        context.beginPath();
-        context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
-        context.globalAlpha=0.5;
-        context.fillStyle = '#ffea00';
-        context.fill();
-
-        }
-
-
-        coalimg.src = 'coal.png';
-        windimg.src ='windmill.png';
+        //declare move: moves rectangles and images forward until end of screen is reached
         function move(obj1, obj2, ctx, x1, y1, x2, y2) {
-          //var x = 0, y = 0;
+
+          //cahnge watts according to last line in file var watts + random # btwn 1 and 20
+          var watts = setInterval(function(){
+
+          changeWatts(wattsfromfile);
+
+          },500);
+
+          //call move at interval
           var interval = setInterval(function() {
 
             return function () {
               ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-              drawRectangle(myRectangle, ctx);
-              //ctx.globalAlpha=1;
-              ctx.drawImage(obj1, x1, y1);
-              ctx.drawImage(obj2, x2, y2);
+              //draw rectangles
+              drawRectangle(rect2, ctx, '#9a9a9a');
+              drawRectangle(rect1, ctx, '#98A729');
 
-            //  ctx.drawImage(obj3, 0, 0);
+              //draw images
+              ctx.drawImage(obj2, x1, y1);
+              ctx.drawImage(obj1, x2, y2);
 
-              x1 += 1;
+
+              //increment location of images
+              x1 += 2;
               x2 += 1;
-              myRectangle.width = myRectangle.width + 1;
-              if (x1 > ctx.canvas.width) {
-                return 0;
+
+              //increment length of rectangles
+              rect1.width += 1;
+              rect2.width += 2;
+
+              //when race is finished set watts to zero and stop objects
+              if (x1 > ctx.canvas.width-104) {
+                clearInterval(watts);
+                clearInterval(interval);
+                document.getElementById('num').innerHTML = "0";
+                document.getElementById('results').style.display = "block";
               }
             };
-          }(), 1200/40);
+          }(), 1330/80);
 
         }
 
-      move(coalimg,windimg,ctx,0,0, 0, 100);
-      var watts = setInterval(function(){changeWatts(200)},500);
+      move(windimg,coalimg,ctx,0,100, 0, 0);
+
 
 
       }, false);
 
-
+      //generate random amount of watts and update feedback in html
       function changeWatts(x){
+
         var newwatts = x + (Math.floor((Math.random() * 20) + 1));
         document.getElementById("num").innerHTML = newwatts;
-        }
 
+        }
     </script>
   </div><!--road-->
 
